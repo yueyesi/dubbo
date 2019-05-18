@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd" default-autowire="byName">
+
+    <!-- 提供方应用信息，用于计算依赖关系; own: 应用维护者 -->
+    <dubbo:application name="order-provider" owner="mic" />
+
+    <!-- 注册中心暴露服务地址 N/A表示不使用注册中心 -->
+    <!--<dubbo:registry address="N/A" />-->
+    <dubbo:registry address="zookeeper://39.108.75.44:2181" />
+
+    <!-- 当前服务发布依赖的协议：webservice,thrift,hessain,http ； 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="20880" />
+
+    <!--服务发布的配置，需要暴露的服务接口-->
+    <dubbo:service interface="com.hzhang.dubbo.order.IOrderServices" ref="orderService"/>
+
+    <!--bean定义-->
+    <bean id="orderService" class="com.hzhang.dubbo.order.OrderServiceImpl"></bean>
+</beans>
